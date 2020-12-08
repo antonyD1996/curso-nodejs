@@ -1,0 +1,22 @@
+{
+  "name": "curso-nodejs",
+  "version": "1.0.0",
+  "description": "Curso NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonyD1996/curso-nodejs.git"
+  },
+  "author": "Antony",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antonyD1996/curso-nodejs/issues"
+  },
+  "homepage": "https://github.com/antonyD1996/curso-nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
