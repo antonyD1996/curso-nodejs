@@ -1,6 +1,6 @@
-const express = require('express')
-const controller = require('../controllers/contact')
+import express from 'express'
+import contactController from '../controllers/contact.js'
 const contactRouter = express.Router()
 
-contactRouter.get('/', controller.renderContact)
-module.exports = contactRouter
+contactRouter.get('/', contactController.renderContact)
+export default contactRouter

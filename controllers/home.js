@@ -1,3 +1,5 @@
-exports.renderHome = (req, res) => {
-    res.sendFile(process.cwd() + "/views/index.html");
+const renderHome = (req, res) => {
+    res.render('index.ejs', {path:"Home"})
   };
+
+export default {renderHome}

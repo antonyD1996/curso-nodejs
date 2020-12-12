@@ -1,6 +1,6 @@
-const express = require('express')
-const controller = require('../controllers/blog')
+import express from 'express'
+import blogController from '../controllers/blog.js'
 const blogRouter = express.Router()
 
-blogRouter.get('/', controller.renderBlog)
-module.exports = blogRouter
+blogRouter.get('/', blogController.renderBlog)
+export default blogRouter

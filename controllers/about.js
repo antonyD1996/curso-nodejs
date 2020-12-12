@@ -1,4 +1,6 @@
-exports.renderAbout = (req, res) => {
-    res.sendFile(process.cwd() + "/views/about.html");
+ const renderAbout = (req, res) => {
+  res.render('about.ejs', {path:"About"})
   };
+
+  export default {renderAbout}
   

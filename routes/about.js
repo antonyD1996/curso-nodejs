@@ -1,6 +1,6 @@
-const express = require('express')
-const controller = require('../controllers/about')
-const aboutRouter = express.Router()
+import express from "express";
+import aboutController from "../controllers/about.js";
+const aboutRouter = express.Router();
 
-aboutRouter.get('/', controller.renderAbout)
-module.exports = aboutRouter
+aboutRouter.get("/", aboutController.renderAbout);
+export default aboutRouter;
