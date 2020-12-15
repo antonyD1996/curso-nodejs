@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Curso NodeJS",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon app.js"
@@ -20,6 +20,8 @@
   "homepage": "https://github.com/antonyD1996/curso-nodejs#readme",
   "dependencies": {
     "ejs": "^3.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6",
+    "package.json": "^2.0.1"
   }
 }
