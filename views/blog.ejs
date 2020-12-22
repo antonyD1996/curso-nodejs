@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('./include/head.ejs') %> 
+<%- include('./include/head.ejs') %>
+
   <body>
     <div class="uk-cover-container uk-height-small">
       <img src="img/header.svg" alt="" uk-cover />
       <nav class="uk-navbar-container" uk-navbar>
         <div class="uk-navbar-left">
-          <a class="uk-navbar-item uk-logo" href="home"
-            ><img src="img/logo.svg"
-          /></a>
+          <a class="uk-navbar-item uk-logo" href="home"><img src="img/logo.svg" /></a>
           <ul class="uk-navbar-nav">
             <li><a href="home">Home</a></li>
             <li><a href="about">About</a></li>
@@ -18,24 +17,25 @@
         </div>
       </nav>
     </div>
-    <div class="uk-container" >
-      <div
-        class="uk-grid-small uk-child-width-1-3@s uk-flex-center uk-text-center"
-        uk-grid
-      >
-        <% posts.forEach(p=>{%>
-        <div>
-          <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title"><%=p.title %></h3>
-            
-            <%=p.time %>
-            <br />
-            <br />
-            <%=p.body %>
+    <div class="uk-container">
+      <button class="uk-button uk-button-default"><a href="/blog/new-post">Nuevo Post</a></button>
+
+      <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <% posts.forEach(p=> {%>
+          <div>
+            <div class="uk-card uk-card-default uk-card-body">
+              <h1>
+                <%= p.title %>
+              </h1>
+              <%= p.body %>
+            </div>
           </div>
-        </div>
-        <% }) %>
+          <% }); %>
       </div>
+
     </div>
+
+
   </body>
+
 </html>
