@@ -7,6 +7,7 @@ import homeRouter from "./routes/home.js"
 import contactRouter from "./routes/contact.js"
 import blogRouter from "./routes/blog.js"
 import aboutRouter from "./routes/about.js"
+import authRouter from "./routes/auth.js"
 
 dotenv.config()
 connectDB()
@@ -24,5 +25,6 @@ server.use("/home", homeRouter);
 server.use("/blog", blogRouter);
 server.use("/contact", contactRouter);
 server.use("/about", aboutRouter);
+server.use("/auth", authRouter);
 
 server.listen(8080);
