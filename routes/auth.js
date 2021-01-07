@@ -9,6 +9,7 @@ authRouter.get('/', authController.renderRegister)
 authRouter.get('/login', authController.renderLogin)
 authRouter.post('/register', authController.register)
 authRouter.post('/login', authController.login)
+authRouter.get('/verify/', authController.verifyEmail)
 
 
 export default authRouter
