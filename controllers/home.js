@@ -1,5 +1,6 @@
 const renderHome = (req, res) => {
-    res.render('index.ejs', {path:"Home"})
-  };
+  console.log(req.session);
+  res.render("index.ejs", { path: "Home" });
+};
 
-export default {renderHome}
+export default { renderHome };

@@ -8,6 +8,7 @@ const renderBlog = (req, res) => {
 
 };
 export const newPost = (req, res) => {
+  
   const postRecibido = new Post({ title: req.body.title, body: req.body.body })
   postRecibido.save((err) => {
     res.redirect('/blog')
@@ -15,6 +16,8 @@ export const newPost = (req, res) => {
 }
 
 export const renderNewPost = (req, res)=>{
+  const cookie = req.get('Cookie')
+  console.log(cookie)
   res.render('new-post.ejs', {path:"New Post"})
 }
 
