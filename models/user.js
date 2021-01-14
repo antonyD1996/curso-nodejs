@@ -1,47 +1,73 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
-const { Schema } = mongoose
+import bcrypt from "bcrypt";
+import queryer from "../storage/queryer.js";
 
-const userSchema = new Schema({
-    firstName: {
-        type: String,
-        required: [true, "First Name is required"]
-    },
-    lastName: {
-        type: String,
-        required: [true, "Last Name is required"]
-    },
-    email: {
-        type: String,
-        unique: true,
-        required: [true, "Email is required"]
-    },
-    emailVerified:{
-        type:Boolean,
-        default: false
-    },
-    password: {
-        type: String,
-        required: [true, "Password Name is required"]
+export default class User {
+  constructor(firstName, lastName, email, password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
+
+  hashPassword = (textPlain) => {
+    return bcrypt.hashSync(textPlain, 8);
+  };
+
+  values = () => {
+    return [
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.hashPassword(this.password),
+    ];
+  };
+
+  save = async () => {
+    try {
+      const res = await queryer.exec(
+        "INSERT INTO anty_user(first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
+        ...this.values
+      );
+      return User.hydrate(res.rows).pop();
+    } catch (error) {
+      return err;
     }
-})
-userSchema.methods.isPasswordValid =async function (textPassword) {
-    const isValid = await bcrypt.compare(textPassword, this.password)
-    return isValid
-}
-userSchema.statics.findByEmailAndComparePassword = function (email, textPassword) {
-    return new Promise((resolve, reject) => {
-        this.findOne({ email: email }).then(user => {
+  };
 
-            bcrypt.compare(textPassword, user.password).then(isValid => {
-                resolve({ isValid: isValid, user: user })
-            }).catch(err => {
-                reject(err)
-            })
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
+  static hydrate = (rows) => {
+    return rows.map((r) => {
+      return {
+        id: r.id,
+        first_name: r.first_name,
+        last_name: r.last_name,
+        email: r.email,
+        email_verified: r.email_verified,
+        modified: r.modified,
+        created: r.created,
+      };
+    });
+  };
 
-export const User = mongoose.model("User", userSchema)
+  static isPassWordValid = async (password, hash) => {
+    try {
+      const valid = await bcrypt.compare(password, hash);
+      return valid;
+    } catch (error) {
+      return err;
+    }
+  };
+
+  static findByEmailAndComparePassword = async (email, password) => {
+    try {
+      const res = queryer.exec(
+        "SELECT * FROM anty_user WHERE email = $1",
+        email
+      );
+      if (res.rowCount === 0) return { valid: false, found: false, user: null };
+      const valid = this.isPassWordValid(password, res.rows[0].password);
+      return { valid: valid, found: true, user: this.hydrate(res.row).pop() };
+    } catch (error) {
+      return err
+    }
+  };
+}

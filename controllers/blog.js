@@ -1,32 +1,52 @@
-import { Post } from '../models/post.js'
+import  Post  from "../models/post.js";
 
-const renderBlog = (req, res) => {
-  Post.find((err, posts) => {
-    res.render('blog.ejs', { path: "Blog", posts: posts })
-    // res.json({"posts": posts});
-  })
-
+export const list = async (req, res) => {
+  try {
+    const list = await Post.list();
+    return res.send({ status: "success", posts: list });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", message: "Something went wrong" });
+  }
 };
-export const newPost = (req, res) => {
-  
-  const postRecibido = new Post({ title: req.body.title, body: req.body.body })
-  postRecibido.save((err) => {
-    res.redirect('/blog')
-  })
-}
+export const newPost = async (req, res) => {
+  const post = new Post(req.body.title, req.body.body, req.userId);
+  try {
+    const savedPost = await post.save();
+    return res.send({ status: "success", message: savedPost });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", message: "Something went wrong" });
+  }
+};
 
-export const renderNewPost = (req, res)=>{
-  const cookie = req.get('Cookie')
-  console.log(cookie)
-  res.render('new-post.ejs', {path:"New Post"})
-}
+export const detail = async (req, res) => {
+  try {
+    const { found, post } = await Post.findById(req.params.id);
 
-export const detail = (req, res)=>{
-  Post.findById(req.params.id, (err, post)=>{
-    res.render('post-detail.ejs', {path:"Post Detail", post:post})
-    console.log(post)
-  })
-}
+    if (!found)
+      return res
+        .status(404)
+        .send({
+          status: "error",
+          message: `Post with id ${req.params.id} not found`,
+        });
+    return res.send({ status: "success", post: post });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", message: "Something went wrong" });
+  }
+};
 
+export const deletePost = (req, res) => {
+  return res.json({});
+};
 
-export default { renderBlog, newPost, renderNewPost, detail }
+export const updatePost = (req, res) => {
+  return res.json({});
+};
+
+export default { list, newPost, detail, deletePost, updatePost };

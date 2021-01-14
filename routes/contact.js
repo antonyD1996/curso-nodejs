@@ -6,8 +6,6 @@ const contactRouter = express.Router()
 
 //el middleware permite procesar las peticiones
 contactRouter.use(bodyParser.urlencoded({ extended: true }))
-
-contactRouter.get('/', contactController.renderContact)
 //contactRouter.use(parseBody)
 contactRouter.post('/', contactController.contact)
 
